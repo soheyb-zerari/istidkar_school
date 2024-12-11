@@ -1,6 +1,3 @@
-import { File, ListFilter } from "lucide-react";
-
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,36 +7,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Progress } from "@/components/ui/progress";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { getStudents } from "@/actions/student.action";
-import { getTeachers } from "@/actions/teacher.action";
+import { Progress } from "@/components/ui/progress";
+
+import StudentsList from "@/components/studentList.component";
+import {getStudents} from "@/actions/student.action";
+import {getTeachers} from "@/actions/teacher.action";
 
 const DashboardPage = async () => {
-  const students = await getStudents();
-  const teachers = await getTeachers();
 
-  // TODO: handle the error condition here
-  // FIXME - handle the error condition here
+  const students = await getStudents()
+  const teachers = await getTeachers()
 
-  // FIXME - handle the error by displaying something to the user when students and teachers are setted
   if (!students) {
     return null;
   }
@@ -98,89 +77,7 @@ const DashboardPage = async () => {
             </CardFooter>
           </Card>
         </div>
-        <Tabs defaultValue="week">
-          <div className="flex items-center flex-row-reverse justify-between">
-            <TabsList>
-              <TabsTrigger value="week">Week</TabsTrigger>
-              <TabsTrigger value="month">Month</TabsTrigger>
-              <TabsTrigger value="year">Year</TabsTrigger>
-            </TabsList>
-            <div className="flex items-center gap-2">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="h-7 gap-1 text-sm"
-                  >
-                    <ListFilter className="h-3.5 w-3.5" />
-                    <span className="sr-only sm:not-sr-only">Filter</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>Filter by</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuCheckboxItem checked>
-                    Fulfilled
-                  </DropdownMenuCheckboxItem>
-                  <DropdownMenuCheckboxItem>Declined</DropdownMenuCheckboxItem>
-                  <DropdownMenuCheckboxItem>Refunded</DropdownMenuCheckboxItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-              <Button size="sm" variant="outline" className="h-7 gap-1 text-sm">
-                <File className="h-3.5 w-3.5" />
-                <span className="sr-only sm:not-sr-only">Export</span>
-              </Button>
-            </div>
-          </div>
-          <TabsContent value="week">
-            <Card x-chunk="dashboard-05-chunk-3" className="rtl" dir="rtl">
-              <CardHeader className="px-7">
-                <CardTitle>الطلاب</CardTitle>
-                <CardDescription>قائمة الطلاب المسجلين حديثاً</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="text-right">الاسم</TableHead>
-                      <TableHead className="text-right">النوع</TableHead>
-                      <TableHead className="text-right">الحالة</TableHead>
-                      <TableHead className="text-right">التاريخ</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {students?.map((student) => {
-                      return (
-                        <TableRow key={student.id}>
-                          <TableCell>
-                            <div className="font-medium" dir="rtl">
-                              {student.username}
-                            </div>
-                            <div className="hidden text-sm text-muted-foreground md:inline">
-                              liam@example.com
-                            </div>
-                          </TableCell>
-                          <TableCell className="hidden sm:table-cell" dir="rtl">
-                            {student.role}
-                          </TableCell>
-                          <TableCell className="hidden sm:table-cell">
-                            <Badge className="text-xs" variant="secondary">
-                              مسجل
-                            </Badge>
-                          </TableCell>
-                          <TableCell className="hidden md:table-cell">
-                            {student.updated_at.slice(0, 10)}
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+         <StudentsList />
       </div>
     </main>
   );
