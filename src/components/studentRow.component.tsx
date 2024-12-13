@@ -17,22 +17,19 @@ const StudentRow = ({key ,student}: {key: number, student: {
     return (
         <TableRow key={key}>
             <TableCell>
-                <div className="font-medium" dir="rtl">
+                <div className="font-medium text-md" dir="rtl">
                     {student.username}
                 </div>
-                <div className="hidden text-sm text-muted-foreground md:inline">
-                    liam@example.com
-                </div>
             </TableCell>
-            <TableCell className="hidden sm:table-cell">
+            <TableCell className="sm:table-cell">
                 <Badge className="text-xs" variant="secondary">
                     مسجل
                 </Badge>
             </TableCell>
-            <TableCell className="hidden md:table-cell">
+            <TableCell className="md:table-cell">
                 {student.updated_at.slice(0, 10)}
             </TableCell>
-            <TableCell className="hidden md:table-cell">
+            <TableCell className="md:table-cell">
                 <Button
                     onClick={async () => {
                         await deleteStudent(student.id)
@@ -42,7 +39,7 @@ const StudentRow = ({key ,student}: {key: number, student: {
                     <Trash />
                 </Button>
             </TableCell >
-            <TableCell className="hidden md:table-cell">
+            <TableCell className="md:table-cell">
                 <UpdateStudentModal studentId={student.id}/>
             </TableCell>
         </TableRow>

@@ -38,9 +38,6 @@ const TeacherList = async () => {
                                                 <div className="font-medium" dir="rtl">
                                                     {teacher.username}
                                                 </div>
-                                                <div className="hidden text-sm text-muted-foreground md:inline">
-                                                    liam@example.com
-                                                </div>
                                             </TableCell>
                                             <TableCell className="hidden sm:table-cell" dir="rtl">
                                                 {teacher.role}

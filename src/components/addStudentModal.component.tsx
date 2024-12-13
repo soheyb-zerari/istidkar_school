@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
 import {
     Dialog,
     DialogContent,
@@ -16,8 +15,8 @@ const AddStudentModal = () => {
 
     return (
         <Dialog>
-            <DialogTrigger className="flex justify-center items-center" asChild>
-                <Button className="w-fit m-auto" variant="default">أدخل طالب جديد</Button>
+            <DialogTrigger className="flex justify-end items-center bg-black text-white px-5 py-1 rounded-md">
+                    أدخل طالب جديد
             </DialogTrigger>
             <DialogContent className="sm:max-w-[400px]">
                 <DialogTitle></DialogTitle>

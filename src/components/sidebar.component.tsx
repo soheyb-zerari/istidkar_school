@@ -34,7 +34,7 @@ const links = [
   },
   {
     name: "",
-    href: "/dashboard/statistics",
+    href: "/dashboard/group",
     logo: <LineChart className="h-5 w-5" />,
   },
 ];
@@ -42,8 +42,6 @@ const links = [
 const Sidebar = () => {
   const path = usePathname();
 
-  //   const activeLink = path.sli;
-  console.log(path);
   return (
     <aside className="fixed inset-y-0 right-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
       <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">

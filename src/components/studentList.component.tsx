@@ -35,7 +35,7 @@ const StudentsList = async () => {
                         <Card x-chunk="dashboard-05-chunk-3" className="rtl" dir="rtl">
                             <CardHeader className="px-7">
                                 <CardTitle>الطلاب</CardTitle>
-                                <CardDescription>قائمة الطلاب المسجلين حديثاً</CardDescription>
+                                {/*<CardDescription>قائمة الطلاب المسجلين</CardDescription>*/}
                             </CardHeader>
                             <CardContent>
                                 <Table>
