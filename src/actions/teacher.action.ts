@@ -1,4 +1,6 @@
-import { createClient } from "@/app/utils/supabase/server";
+"use server"
+
+import { createClient } from "@/app/utils/supabase/client";
 
 const getTeachers = async () => {
     const supabase = await createClient();
@@ -10,4 +12,16 @@ const getTeachers = async () => {
     return data;
 }
 
-export { getTeachers }
+const getTeacherByUserId = async(teacherId: string) => {
+    const supabase = await createClient();
+
+    const teacherDb = await supabase
+        .from('teacher')
+        .select('*')
+        .eq('user_id', teacherId)
+        .single();
+
+    return teacherDb
+}
+
+export { getTeachers, getTeacherByUserId }
