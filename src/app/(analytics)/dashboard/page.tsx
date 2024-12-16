@@ -13,17 +13,11 @@ import { Progress } from "@/components/ui/progress";
 import StudentsList from "@/components/studentList.component";
 import {getStudents} from "@/actions/student.action";
 import {getTeachers} from "@/actions/teacher.action";
-import {createClient} from "@/app/utils/supabase/server";
 
 const DashboardPage = async () => {
 
   const students = await getStudents()
   const teachers = await getTeachers()
-
-  const supabase = await createClient();
-  const {data: { user }} = await supabase.auth.getUser();
-
-  console.log(user?.id);
 
   if (!students) {
     return null;
