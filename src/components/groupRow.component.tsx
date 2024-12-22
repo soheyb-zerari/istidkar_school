@@ -3,9 +3,9 @@
 import React from 'react'
 import {TableCell, TableRow} from "@/components/ui/table";
 import {Button} from "@/components/ui/button";
-import {Trash} from "lucide-react";
+import {Trash, SquarePen} from "lucide-react";
 import {deleteGroup} from "@/actions/group.action";
-import UpdateGroupModal from "@/components/updateGroupModal.component";
+import {redirect} from "next/navigation";
 
 
 const GroupRow = ({key ,group}: {key: number, group: {
@@ -35,7 +35,14 @@ const GroupRow = ({key ,group}: {key: number, group: {
                 </Button>
             </TableCell >
             <TableCell className="md:table-cell">
-                <UpdateGroupModal groupId={group.id}/>
+                <Button
+                    onClick={async () => {
+                        redirect(`/dashboard/group/${group.id}`)
+                    }}
+                    className="h-9 w-8"
+                    variant="outline">
+                    <SquarePen />
+                </Button>
             </TableCell>
         </TableRow>
     )

@@ -3,27 +3,26 @@
 import React, {useState} from 'react'
 import {Dialog, DialogContent, DialogTitle, DialogTrigger} from "@/components/ui/dialog";
 import {Button} from "@/components/ui/button";
-import {SquarePen} from "lucide-react";
-import UpdateGroupForm from "@/components/updateGroupForm.component";
+import {CirclePlus} from "lucide-react";
+import AddStudentToGroupForm from "@/components/addStudentToGroupForm.component";
 
-const UpdateGroupModal = ({groupId}: {groupId: number}) => {
+const AddStudentToGroupModal = ({groupId}: {groupId: number}) => {
     const [name, setName] = useState<string>("");
 
     return (
         <Dialog>
             <DialogTrigger className="flex justify-center items-center" asChild>
                 <Button
-                    className="font-semibold"
+                    className="h-9 w-8 bg-yellow-400 text-white"
                     variant="default">
-                    تغيير اسم المجموعة
+                    <CirclePlus />
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[400px]">
                 <DialogTitle></DialogTitle>
-                <UpdateGroupForm name={name} setName={setName} groupId={groupId} />
+                <AddStudentToGroupForm name={name} setName={setName} groupId={groupId} />
             </DialogContent>
         </Dialog>
     )
 }
-
-export default UpdateGroupModal
+export default AddStudentToGroupModal

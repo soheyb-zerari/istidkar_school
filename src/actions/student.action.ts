@@ -1,6 +1,7 @@
 "use server"
 
 import { createClient } from "@/app/utils/supabase/client";
+import { createClient as createServerClient } from "@/app/utils/supabase/server"
 import {redirect} from "next/navigation";
 
 const getStudents = async () => {
@@ -9,6 +10,16 @@ const getStudents = async () => {
     const { data, error } = await supabase.from("student").select("*");
 
     if (error) throw error;
+
+    return data;
+}
+
+const getStudentById = async (studentId: number) => {
+    const supabase = await createServerClient();
+
+    const { data, error } = await supabase.from("student").select("*").eq("id", studentId).single();
+
+    if (error) return null;
 
     return data;
 }
@@ -27,6 +38,41 @@ const addStudent = async (formData: FormData) => {
     }
 
     redirect('/dashboard/student')
+}
+
+const getStudentsWithGroupStatus = async (groupId: number) => {
+    const supabase = await createServerClient();
+
+    const { data, error } = await supabase
+        .from('student')
+        .select(`
+      id,
+      username,
+      role,
+      updated_at,
+      groupe_student!left(groupe_id)
+    `);
+
+    if (error) {
+        console.error('Error fetching students:', error.message);
+        return null;
+    }
+
+    const studentsWithStatus = data.map((student) => {
+        const isJoined = student.groupe_student.some(
+            (group) => group.groupe_id === groupId
+        );
+
+        return {
+            id: student.id,
+            username: student.username,
+            role: student.role,
+            updated_at: student.updated_at,
+            isJoined: isJoined,
+        };
+    });
+
+    return studentsWithStatus;
 }
 
 const updateStudent = async (formData: FormData) => {
@@ -60,4 +106,4 @@ const deleteStudent = async (id: number) => {
     redirect('/dashboard/student')
 }
 
-export { getStudents, addStudent, updateStudent, deleteStudent }
+export { getStudents, getStudentById, addStudent, updateStudent, deleteStudent, getStudentsWithGroupStatus }

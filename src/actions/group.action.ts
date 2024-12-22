@@ -5,6 +5,7 @@ import { createClient as createServerClient } from "@/app/utils/supabase/server"
 import {redirect} from "next/navigation";
 import {getTeacherByUserId} from "@/actions/teacher.action";
 import {SupabaseClient} from "@supabase/supabase-js";
+import {getStudentById} from "@/actions/student.action";
 
 const addGroup = async (formData: FormData) => {
     const supabase = await createServerClient();
@@ -37,6 +38,43 @@ const addGroup = async (formData: FormData) => {
     redirect('/dashboard/group')
 }
 
+const addStudentToGroup = async (studentId: number, groupId: number) => {
+    const supabase = await createServerClient();
+
+    const isGroupExist = await getGroupById(groupId);
+    if (!isGroupExist) return;
+
+    const isStudentExist = await getStudentById(studentId);
+    if (!isStudentExist) return;
+
+    const {error} = await supabase.from("groupe_student").insert([{
+        groupe_id: groupId,
+        student_id: studentId,
+    }])
+
+    if (error) return;
+
+    redirect(`/dashboard/group/${groupId}`);
+}
+
+const deleteStudentFromGroup = async (studentId: number, groupId: number) => {
+    const supabase = await createServerClient();
+
+    const isGroupExist = await getGroupById(groupId);
+    if (!isGroupExist) return;
+
+    const isStudentExist = await getStudentById(studentId);
+    if (!isStudentExist) return;
+
+    const {error} = await supabase.from("groupe_student").delete()
+        .eq("groupe_id", groupId)
+        .eq("student_id", studentId);
+
+    if (error) return;
+
+    redirect(`/dashboard/group/${groupId}`);
+}
+
 const getGroupByTeacherId = async (authId: string)=> {
     const supabase = await createClient();
 
@@ -50,6 +88,18 @@ const getGroupByTeacherId = async (authId: string)=> {
 
     if (error) {
         redirect("/error")
+    }
+
+    return data;
+}
+
+const getGroupById = async (groupId: number) => {
+    const supabase = await createServerClient();
+
+    const { error, data} = await supabase.from("groupe").select("*").eq("id", groupId).single();
+
+    if (error) {
+        return null;
     }
 
     return data;
@@ -119,4 +169,4 @@ const teacherIsGroupOwner = async (teacherId: number) => {
     return teacherId === data.id;
 }
 
-export { addGroup, getGroupByTeacherId, deleteGroup, updateGroup }
+export { addGroup, addStudentToGroup, getGroupByTeacherId, getGroupById, deleteGroup, deleteStudentFromGroup, updateGroup }

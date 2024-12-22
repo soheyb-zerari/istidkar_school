@@ -33,7 +33,7 @@ const links = [
     logo: <Users2 className="h-5 w-5" />,
   },
   {
-    name: "",
+    name: "المجموعات",
     href: "/dashboard/group",
     logo: <LineChart className="h-5 w-5" />,
   },

@@ -3,7 +3,6 @@ import React from 'react'
 import AddGroupModal from "@/components/addGroupModal.component";
 import GroupList from "@/components/groupList.component";
 
-
 const GroupPage = async () => {
 
     return (
