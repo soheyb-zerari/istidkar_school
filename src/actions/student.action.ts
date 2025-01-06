@@ -106,4 +106,51 @@ const deleteStudent = async (id: number) => {
     redirect('/dashboard/student')
 }
 
-export { getStudents, getStudentById, addStudent, updateStudent, deleteStudent, getStudentsWithGroupStatus }
+const getStudentByGroupId = async (groupId: number) => {
+    const supabase = await createServerClient();
+
+    const studentsIds = await supabase.from("groupe_student").select("student_id").eq("groupe_id", groupId);
+    if (studentsIds.error) redirect("/error");
+    const ids: number[] = studentsIds.data.map((obj) => obj.student_id);
+
+    const {data, error} = await supabase.from("student").select("*").in("id", ids);
+    console.log(error);
+    if (error) redirect("/error");
+
+    return data;
+}
+
+const markStudentPresence = async (sessionId: number, studentId: number, presence: boolean)=> {
+    if (
+        typeof presence != "boolean" ||
+        !sessionId ||
+        !studentId
+    ) redirect("/error")
+
+
+    const supabase = await createServerClient();
+
+    const presenceExist = await supabase.from("presence")
+        .select("session,student")
+        .eq("session", sessionId)
+        .eq("student", studentId);
+
+    if (presenceExist.error) redirect("/error")
+    console.log(1);
+    if (presenceExist.data.length != 0) return false;
+    console.log(2);
+    const { error, status } = await supabase.from("presence")
+        .upsert([{
+            session: sessionId,
+            student: studentId,
+            present: presence
+        }])
+    if (error) {
+        console.log(error)
+        redirect("/error")
+    }
+
+    return true;
+}
+
+export { getStudents, getStudentById, addStudent, updateStudent, deleteStudent, getStudentsWithGroupStatus, getStudentByGroupId, markStudentPresence }

@@ -12,6 +12,7 @@ import {
   Settings,
   UserRoundPen,
   Users2,
+  Calendar
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -36,6 +37,11 @@ const links = [
     name: "المجموعات",
     href: "/dashboard/group",
     logo: <LineChart className="h-5 w-5" />,
+  },
+  {
+    name: "الحصص",
+    href: "/dashboard/session",
+    logo: <Calendar className="h-5 w-5" />,
   },
 ];
 
